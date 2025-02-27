@@ -91,7 +91,7 @@ The OSSE is designed to meet the following security certifications:
 
 | Standard | Target Level | Status |
 |----------|--------------|--------|
-| FIPS 140-3 | Level 3 | In progress |
+| FIPS 140-3 | Level 3 | Planned |
 | Common Criteria | EAL 5+ | Planned |
 | EMVCo Security Evaluation | Level 1 | Planned |
 
