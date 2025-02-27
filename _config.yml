@@ -1,0 +1,51 @@
+remote_theme: just-the-docs/just-the-docs
+title: Open Source Secure Element
+description: Documentation for the Open Source Secure Element (OSSE) project
+baseurl: "/open-source-secure-element"
+url: "https://etherisc.github.io"
+
+# Just the Docs configuration
+search_enabled: true
+heading_anchors: true
+color_scheme: light
+aux_links:
+  "OSSE on GitHub":
+    - "https://github.com/etherisc/open-source-secure-element"
+logo: "/assets/images/logo.webp"
+
+# Footer content
+footer_content: "Copyright &copy; 2023 Etherisc GmbH. Distributed under an open source license."
+
+# Enable copy button on code blocks
+enable_copy_code_button: true
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# Navigation
+nav_sort: case_sensitive
+
+# Custom CSS
+sass:
+  sass_dir: assets/css
+  style: compressed
+
+# Custom JavaScript
+after_footer_scripts:
+  - assets/js/custom.js
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-include-cache
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .gitignore 
