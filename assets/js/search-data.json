@@ -1,0 +1,982 @@
+{"0": {
+    "doc": "API Reference",
+    "title": "API Reference",
+    "content": "This section provides detailed documentation for the OSSE API, which allows developers to integrate the Open Source Secure Element into their applications. ",
+    "url": "/open-source-secure-element/api-reference/",
+    
+    "relUrl": "/api-reference/"
+  },"1": {
+    "doc": "API Reference",
+    "title": "API Overview",
+    "content": "The OSSE API is organized into several functional areas: . | Device Management: Initialize, configure, and manage the OSSE device | Key Management: Generate, import, export, and manage cryptographic keys | Cryptographic Operations: Perform encryption, decryption, signing, and verification | Secure Storage: Store and retrieve sensitive data | Attestation: Verify the authenticity and integrity of the OSSE device | . ",
+    "url": "/open-source-secure-element/api-reference/#api-overview",
+    
+    "relUrl": "/api-reference/#api-overview"
+  },"2": {
+    "doc": "API Reference",
+    "title": "C API",
+    "content": "The core C API provides low-level access to all OSSE functionality. Device Management . // Initialize the OSSE device osse_result_t osse_init(osse_context_t* ctx); // Configure the OSSE device osse_result_t osse_configure(osse_context_t ctx, const osse_config_t* config); // Get device information osse_result_t osse_get_device_info(osse_context_t ctx, osse_device_info_t* info); // Close the connection to the OSSE device osse_result_t osse_deinit(osse_context_t ctx); . Key Management . // Generate a new key pair osse_result_t osse_generate_keypair( osse_context_t ctx, const char* key_id, osse_key_type_t key_type, osse_key_attributes_t* attributes, uint8_t* public_key, size_t* public_key_size ); // Import an existing key osse_result_t osse_import_key( osse_context_t ctx, const char* key_id, osse_key_type_t key_type, const uint8_t* key_data, size_t key_data_size, osse_key_attributes_t* attributes ); // Export a public key osse_result_t osse_export_public_key( osse_context_t ctx, const char* key_id, uint8_t* key_data, size_t* key_data_size ); // Delete a key osse_result_t osse_delete_key( osse_context_t ctx, const char* key_id ); . Cryptographic Operations . // Sign data with a private key osse_result_t osse_sign( osse_context_t ctx, const char* key_id, osse_algorithm_t algorithm, const uint8_t* data, size_t data_size, uint8_t* signature, size_t* signature_size ); // Verify a signature with a public key osse_result_t osse_verify( osse_context_t ctx, const char* key_id, osse_algorithm_t algorithm, const uint8_t* data, size_t data_size, const uint8_t* signature, size_t signature_size ); // Encrypt data osse_result_t osse_encrypt( osse_context_t ctx, const char* key_id, osse_algorithm_t algorithm, const uint8_t* plaintext, size_t plaintext_size, uint8_t* ciphertext, size_t* ciphertext_size ); // Decrypt data osse_result_t osse_decrypt( osse_context_t ctx, const char* key_id, osse_algorithm_t algorithm, const uint8_t* ciphertext, size_t ciphertext_size, uint8_t* plaintext, size_t* plaintext_size ); . ",
+    "url": "/open-source-secure-element/api-reference/#c-api",
+    
+    "relUrl": "/api-reference/#c-api"
+  },"3": {
+    "doc": "API Reference",
+    "title": "Python API",
+    "content": "The Python API provides a high-level, Pythonic interface to the OSSE functionality. from osse import OSSE, KeyType, Algorithm # Initialize the OSSE osse = OSSE() # Generate a key pair public_key = osse.generate_keypair( key_id=\"my_key\", key_type=KeyType.EC_SECP256K1 ) # Sign data message = b\"Hello, OSSE!\" signature = osse.sign( key_id=\"my_key\", algorithm=Algorithm.ECDSA_SHA256, data=message ) # Verify signature is_valid = osse.verify( key_id=\"my_key\", algorithm=Algorithm.ECDSA_SHA256, data=message, signature=signature ) print(f\"Signature valid: {is_valid}\") . ",
+    "url": "/open-source-secure-element/api-reference/#python-api",
+    
+    "relUrl": "/api-reference/#python-api"
+  },"4": {
+    "doc": "API Reference",
+    "title": "JavaScript API",
+    "content": "The JavaScript API is designed for web applications and Node.js environments. import { OSSE, KeyType, Algorithm } from 'osse-js'; // Connect to the OSSE device async function useOSSE() { const osse = await OSSE.connect(); try { // Generate a key pair const publicKey = await osse.generateKeypair({ keyId: 'my_key', keyType: KeyType.EC_SECP256K1 }); // Sign data const message = new TextEncoder().encode('Hello, OSSE!'); const signature = await osse.sign({ keyId: 'my_key', algorithm: Algorithm.ECDSA_SHA256, data: message }); // Verify signature const isValid = await osse.verify({ keyId: 'my_key', algorithm: Algorithm.ECDSA_SHA256, data: message, signature: signature }); console.log(`Signature valid: ${isValid}`); } finally { // Close the connection await osse.disconnect(); } } . ",
+    "url": "/open-source-secure-element/api-reference/#javascript-api",
+    
+    "relUrl": "/api-reference/#javascript-api"
+  },"5": {
+    "doc": "API Reference",
+    "title": "Error Handling",
+    "content": "All API functions return a result code indicating success or failure: . | Result Code | Description | . | OSSE_SUCCESS | Operation completed successfully | . | OSSE_ERROR_INVALID_PARAMETER | Invalid parameter provided | . | OSSE_ERROR_COMMUNICATION | Communication error with the device | . | OSSE_ERROR_DEVICE_NOT_FOUND | OSSE device not found | . | OSSE_ERROR_PERMISSION_DENIED | Permission denied to access the device | . | OSSE_ERROR_KEY_NOT_FOUND | Specified key not found | . | OSSE_ERROR_BUFFER_TOO_SMALL | Output buffer too small | . | OSSE_ERROR_CRYPTO | Cryptographic operation failed | . | OSSE_ERROR_STORAGE | Storage operation failed | . ",
+    "url": "/open-source-secure-element/api-reference/#error-handling",
+    
+    "relUrl": "/api-reference/#error-handling"
+  },"6": {
+    "doc": "API Reference",
+    "title": "API Versioning",
+    "content": "The OSSE API follows semantic versioning: . | Major version: Incompatible API changes | Minor version: Backwards-compatible functionality additions | Patch version: Backwards-compatible bug fixes | . Warning: The API is currently in beta (v0.x) and may change without maintaining backward compatibility. ",
+    "url": "/open-source-secure-element/api-reference/#api-versioning",
+    
+    "relUrl": "/api-reference/#api-versioning"
+  },"7": {
+    "doc": "API Reference",
+    "title": "Further Documentation",
+    "content": "For more detailed information about specific API functions, see the following pages: . | Device Management API | Key Management API | Cryptographic Operations API | Secure Storage API | Attestation API | . ",
+    "url": "/open-source-secure-element/api-reference/#further-documentation",
+    
+    "relUrl": "/api-reference/#further-documentation"
+  },"8": {
+    "doc": "Comparison with Similar Projects",
+    "title": "Comparison with Similar Projects",
+    "content": "This project sets itself apart by combining open-source hardware and software with blockchain-based supply chain transparency and tailored insurance mechanisms. Below is a detailed comparison with similar solutions, focusing on unique contributions and advances beyond the current state of the art: . ",
+    "url": "/open-source-secure-element/project/comparison.html",
+    
+    "relUrl": "/project/comparison.html"
+  },"9": {
+    "doc": "Comparison with Similar Projects",
+    "title": "1. Fully Open-Source Design",
+    "content": "Unlike proprietary hardware wallets, which are opaque and rely on trust in the manufacturer, this project is built on an entirely open-source foundation, leveraging the OpenTitan framework. This transparency enables independent audits, fosters community trust, and aligns with Ethereum’s open-source ethos. ",
+    "url": "/open-source-secure-element/project/comparison.html#1-fully-open-source-design",
+    
+    "relUrl": "/project/comparison.html#1-fully-open-source-design"
+  },"10": {
+    "doc": "Comparison with Similar Projects",
+    "title": "2. Blockchain-Based Supply Chain Documentation",
+    "content": "This project pioneers the use of blockchain to document the supply chain of hardware components. By ensuring that all critical components can be traced to their origin, the project mitigates tampering risks and builds user confidence. This approach is not seen in existing solutions. ",
+    "url": "/open-source-secure-element/project/comparison.html#2-blockchain-based-supply-chain-documentation",
+    
+    "relUrl": "/project/comparison.html#2-blockchain-based-supply-chain-documentation"
+  },"11": {
+    "doc": "Comparison with Similar Projects",
+    "title": "3. Insurability of Non-Custodial Wallets",
+    "content": "Currently, non-custodial wallets are largely uninsurable due to the absence of compliance-enforcing mechanisms. This project integrates features like address whitelisting, blacklisting, and social recovery to enable tailored insurance coverage. These features bridge the gap between user autonomy and financial protection, a first in the crypto space. ",
+    "url": "/open-source-secure-element/project/comparison.html#3-insurability-of-non-custodial-wallets",
+    
+    "relUrl": "/project/comparison.html#3-insurability-of-non-custodial-wallets"
+  },"12": {
+    "doc": "Comparison with Similar Projects",
+    "title": "4. Collaboration with the Firefly Open Source Wallet",
+    "content": "The Firefly wallet is another open-source initiative focused on secure cryptocurrency storage. While Firefly shares the open-source philosophy, it is primarily software-focused and does not address the hardware security layer or supply chain transparency. This project complements and extends Firefly by providing a secure hardware component. Collaboration with the Firefly project is likely and highly synergistic. The hardware wallet developed in this project could serve as a secure signing device for Firefly, while Firefly’s software innovations could enhance the wallet’s usability and integration with the Ethereum ecosystem. This partnership ensures that no duplicate development efforts are made and maximizes the impact of both projects. ",
+    "url": "/open-source-secure-element/project/comparison.html#4-collaboration-with-the-firefly-open-source-wallet",
+    
+    "relUrl": "/project/comparison.html#4-collaboration-with-the-firefly-open-source-wallet"
+  },"13": {
+    "doc": "Comparison with Similar Projects",
+    "title": "5. Unique Features and Contributions",
+    "content": ". | EIP-712 Support: Unlike many existing wallets, this project prioritizes security by eliminating blind signing. Transaction details will be displayed clearly on the device, reducing phishing and fraud risks. | OpenTitan Framework: By leveraging the OpenTitan silicon root of trust (RoT), this project achieves a higher standard of hardware security compared to proprietary solutions. | Affordable and Accessible Design: The use of off-the-shelf components ensures that the wallet remains affordable without compromising on security or functionality. | . ",
+    "url": "/open-source-secure-element/project/comparison.html#5-unique-features-and-contributions",
+    
+    "relUrl": "/project/comparison.html#5-unique-features-and-contributions"
+  },"14": {
+    "doc": "Comparison with Similar Projects",
+    "title": "Other Solutions Being Worked On",
+    "content": "Ledger and Trezor . Both are popular proprietary hardware wallets. While secure, they lack the open-source transparency, supply chain documentation, and insurability features this project offers. Firefly Wallet . Focused on open-source software for cryptocurrency management but lacks a dedicated hardware layer and supply chain documentation. ",
+    "url": "/open-source-secure-element/project/comparison.html#other-solutions-being-worked-on",
+    
+    "relUrl": "/project/comparison.html#other-solutions-being-worked-on"
+  },"15": {
+    "doc": "Comparison with Similar Projects",
+    "title": "Advances Beyond the State of the Art",
+    "content": "This project combines the best elements of existing solutions—open-source principles, cutting-edge hardware security, blockchain transparency, and insurance integration—into a single comprehensive package. By addressing the limitations of both proprietary and open-source alternatives, it establishes a new standard for secure, transparent, and insurable non-custodial crypto wallets. ",
+    "url": "/open-source-secure-element/project/comparison.html#advances-beyond-the-state-of-the-art",
+    
+    "relUrl": "/project/comparison.html#advances-beyond-the-state-of-the-art"
+  },"16": {
+    "doc": "Comparison with Similar Projects",
+    "title": "Transparency and Auditability",
+    "content": "Existing Solutions: Most hardware wallets use proprietary secure elements with closed-source designs, making it impossible to fully audit their security. OSSE Approach: The OSSE is built on a fully open-source foundation, leveraging the OpenTitan framework. This transparency enables independent audits, fosters community trust, and aligns with Ethereum’s open-source ethos. ",
+    "url": "/open-source-secure-element/project/comparison.html#transparency-and-auditability",
+    
+    "relUrl": "/project/comparison.html#transparency-and-auditability"
+  },"17": {
+    "doc": "Comparison with Similar Projects",
+    "title": "Hardware Security",
+    "content": "Existing Solutions: Proprietary secure elements provide strong security but lack transparency, creating a “trust the manufacturer” model. OSSE Approach: . | OpenTitan Framework: By leveraging the OpenTitan silicon root of trust (RoT), this project achieves a higher standard of hardware security compared to proprietary solutions. | . ",
+    "url": "/open-source-secure-element/project/comparison.html#hardware-security",
+    
+    "relUrl": "/project/comparison.html#hardware-security"
+  },"18": {
+    "doc": "Current Status",
+    "title": "Current Project Status",
+    "content": "The Open Source Secure Element (OSSE) project is currently in its initial development phase. While a Minimum Viable Product (MVP) has not yet been created, significant groundwork has been laid to establish the technical foundation for the project. ",
+    "url": "/open-source-secure-element/technical/current-status.html#current-project-status",
+    
+    "relUrl": "/technical/current-status.html#current-project-status"
+  },"19": {
+    "doc": "Current Status",
+    "title": "Available Development Hardware",
+    "content": "Development boards for the OpenTitan project are available and have been acquired for the project: . | ChipWhisperer CW340 FPGA Board: This board will serve as the basis for the hardware wallet’s prototype, allowing for the implementation and testing of the secure element design. | . ",
+    "url": "/open-source-secure-element/technical/current-status.html#available-development-hardware",
+    
+    "relUrl": "/technical/current-status.html#available-development-hardware"
+  },"20": {
+    "doc": "Current Status",
+    "title": "Partnerships and Collaborations",
+    "content": "Key partnerships have been established to support the project’s development: . | (Redacted*) and Etherisc: A Letter of Intent (LOI) has been signed between these organizations to collaborate on the design and implementation of the secure hardware wallet. | Research Team: A multidisciplinary team with expertise in blockchain technology, software development, and hardware security has been assembled. | . ",
+    "url": "/open-source-secure-element/technical/current-status.html#partnerships-and-collaborations",
+    
+    "relUrl": "/technical/current-status.html#partnerships-and-collaborations"
+  },"21": {
+    "doc": "Current Status",
+    "title": "Research and Planning",
+    "content": "Significant research and planning efforts have been undertaken: . | Hardware Security Module Analysis: The team has evaluated various hardware security module designs to identify best practices and potential improvements. | OpenTitan Framework Analysis: The team has begun analyzing the OpenTitan framework for its suitability as the core of the secure hardware wallet. | Architecture Planning: Initial architecture designs for the wallet have been drafted, focusing on security, transparency, and insurability. | Supply Chain Documentation: Research into blockchain-based supply chain documentation methods is underway. | . ",
+    "url": "/open-source-secure-element/technical/current-status.html#research-and-planning",
+    
+    "relUrl": "/technical/current-status.html#research-and-planning"
+  },"22": {
+    "doc": "Current Status",
+    "title": "Development Roadmap",
+    "content": "The project has established a clear roadmap for development: . | Prototype Development: Using the CW340 Luna FPGA board to prototype the wallet’s core functionality. | Feature Implementation: Plans for implementing secure key generation, transaction signing, and encrypted key storage features. | Firmware Development: Preparation for porting wallet firmware to the RISC-V architecture and the Ibex processor. | . ",
+    "url": "/open-source-secure-element/technical/current-status.html#development-roadmap",
+    
+    "relUrl": "/technical/current-status.html#development-roadmap"
+  },"23": {
+    "doc": "Current Status",
+    "title": "Next Steps",
+    "content": "The immediate next steps in the project include: . | Completing the feasibility study of the OpenTitan framework | Setting up the development environment for the CW340 board | Implementing basic secure element functionality | Developing the initial prototype of the hardware wallet | Testing and validating the prototype’s security features | . The project is on track to deliver a functional prototype within the planned timeline, with a clear pathway toward creating a fully functioning prototype ready for serial production. *) The name of the leading german security research facility will be revealed when the project is funded . ",
+    "url": "/open-source-secure-element/technical/current-status.html#next-steps",
+    
+    "relUrl": "/technical/current-status.html#next-steps"
+  },"24": {
+    "doc": "Current Status",
+    "title": "Current Status",
+    "content": " ",
+    "url": "/open-source-secure-element/technical/current-status.html",
+    
+    "relUrl": "/technical/current-status.html"
+  },"25": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "Effects on Ethereum Ecosystem",
+    "content": "The Open Source Secure Element (OSSE) project will have a transformative impact on the Ethereum ecosystem by addressing critical challenges in security, transparency, and usability. Below are the expected results and their positive effects on the ecosystem: . ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html",
+    
+    "relUrl": "/impact/ecosystem-effects.html"
+  },"26": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "1. Enhanced Security for Ethereum Transactions",
+    "content": "Expected Result: Development of a secure, non-custodial hardware wallet based on the OpenTitan framework. Positive Effect: By providing a hardware wallet that adheres to open-source principles and advanced security standards, the project reduces the risk of key compromise, phishing, and fraud. EIP-712 support will eliminate blind signing, ensuring that Ethereum transactions are executed with greater transparency and user understanding. ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#1-enhanced-security-for-ethereum-transactions",
+    
+    "relUrl": "/impact/ecosystem-effects.html#1-enhanced-security-for-ethereum-transactions"
+  },"27": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "2. Enabling Insurability for Non-Custodial Wallets",
+    "content": "Expected Result: Integration of compliance mechanisms such as address whitelisting, blacklisting, and social recovery into the wallet. Positive Effect: For the first time, Ethereum users will have access to insurable non-custodial wallets, bridging the gap between decentralization and financial protection. This innovation will attract more users to the Ethereum ecosystem by providing the confidence needed to manage significant crypto holdings securely. ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#2-enabling-insurability-for-non-custodial-wallets",
+    
+    "relUrl": "/impact/ecosystem-effects.html#2-enabling-insurability-for-non-custodial-wallets"
+  },"28": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "3. Blockchain-Based Supply Chain Transparency",
+    "content": "Expected Result: Implementation of a blockchain-based system for documenting the supply chain of hardware components. Positive Effect: . | Enhances trust in the hardware manufacturing process by enabling users to verify the origin and integrity of wallet components. | Demonstrates a practical use case for Ethereum-based supply chain solutions, showcasing the utility of the network beyond DeFi and NFTs. | . ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#3-blockchain-based-supply-chain-transparency",
+    
+    "relUrl": "/impact/ecosystem-effects.html#3-blockchain-based-supply-chain-transparency"
+  },"29": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "4. Contributions to Open-Source Development",
+    "content": "Expected Result: Release of all hardware and software components as open source, including firmware, secure element design, and supply chain documentation tools. Positive Effect: . | Strengthens the Ethereum developer community by providing reusable components and infrastructure. | Encourages innovation by enabling other developers to build on the project’s outputs, fostering a culture of collaboration and shared learning. | . ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#4-contributions-to-open-source-development",
+    
+    "relUrl": "/impact/ecosystem-effects.html#4-contributions-to-open-source-development"
+  },"30": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "5. Improved Accessibility and Affordability",
+    "content": "Expected Result: Creation of an affordable and accessible hardware wallet using off-the-shelf components. Positive Effect: . | Expands access to secure crypto storage solutions for a broader audience, including retail users and emerging markets. | Supports Ethereum’s vision of financial inclusion by making secure tools available to underrepresented communities. | . ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#5-improved-accessibility-and-affordability",
+    
+    "relUrl": "/impact/ecosystem-effects.html#5-improved-accessibility-and-affordability"
+  },"31": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "6. Synergies with Existing Projects and Ecosystem Tools",
+    "content": "Expected Result: Collaboration with projects like Firefly Wallet and integration with Ethereum tools like MetaMask and WalletConnect. Positive Effect: . | Ensures seamless compatibility with existing Ethereum applications, enhancing the overall user experience. | Prevents duplicated development efforts, maximizing resource efficiency and impact within the ecosystem. | . ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#6-synergies-with-existing-projects-and-ecosystem-tools",
+    
+    "relUrl": "/impact/ecosystem-effects.html#6-synergies-with-existing-projects-and-ecosystem-tools"
+  },"32": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "7. Broader Adoption of Ethereum",
+    "content": "Expected Result: Increased trust and usability for Ethereum as a secure platform for decentralized finance and beyond. Positive Effect: . | The project lowers barriers for new users by addressing their concerns about security and trust, encouraging more people to participate in the Ethereum ecosystem. | Builds confidence among institutions and enterprises, potentially leading to greater adoption of Ethereum for decentralized applications. | . ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#7-broader-adoption-of-ethereum",
+    
+    "relUrl": "/impact/ecosystem-effects.html#7-broader-adoption-of-ethereum"
+  },"33": {
+    "doc": "Effects on Ethereum Ecosystem",
+    "title": "Long-Term Impact",
+    "content": "By combining security, transparency, and usability, this project will help position Ethereum as the leading platform for decentralized finance and secure asset management. The innovations and tools produced will benefit the ecosystem at large, fostering trust, collaboration, and adoption across diverse user groups. ",
+    "url": "/open-source-secure-element/impact/ecosystem-effects.html#long-term-impact",
+    
+    "relUrl": "/impact/ecosystem-effects.html#long-term-impact"
+  },"34": {
+    "doc": "FAQ",
+    "title": "Frequently Asked Questions",
+    "content": " ",
+    "url": "/open-source-secure-element/faq/#frequently-asked-questions",
+    
+    "relUrl": "/faq/#frequently-asked-questions"
+  },"35": {
+    "doc": "FAQ",
+    "title": "General Questions",
+    "content": "What is the Open Source Secure Element (OSSE)? . The Open Source Secure Element (OSSE) is a fully open-source hardware security module built around a secure element based on the OpenTitan framework. It aims to provide transparent, auditable security for cryptographic operations and key storage. Why is an open-source secure element important? . Traditional secure elements are closed-source “black boxes” that require users to trust the manufacturer without the ability to verify the implementation. An open-source secure element allows for: . | Complete transparency of the security implementation | Community auditing and improvement | Customization for specific use cases | Elimination of potential backdoors or vulnerabilities that could exist in closed-source solutions | . How does OSSE compare to commercial secure elements? . | Feature | OSSE | Commercial Secure Elements | . | Design transparency | Full source code and hardware designs available | Proprietary, closed designs | . | Customizability | Can be modified for specific needs | Limited to vendor specifications | . | Security certifications | Working toward FIPS 140-3, Common Criteria | Often certified to various standards | . | Supply chain verification | Blockchain-based verification | Vendor-dependent | . | Cost | Open-source, lower production costs | Typically higher licensing costs | . Is OSSE suitable for production use? . The OSSE project is currently in development. While the design and implementation are progressing well, we recommend: . | Using OSSE in test environments | Contributing to development and testing | Planning for production use as the project matures and achieves security certifications | . ",
+    "url": "/open-source-secure-element/faq/#general-questions",
+    
+    "relUrl": "/faq/#general-questions"
+  },"36": {
+    "doc": "FAQ",
+    "title": "Technical Questions",
+    "content": "What cryptographic algorithms does OSSE support? . OSSE supports a wide range of cryptographic algorithms: . | Symmetric: AES (128/256-bit), ChaCha20-Poly1305 | Hash: SHA-256/384/512, BLAKE2 | Asymmetric: RSA, ECDSA (secp256k1, P-256), Ed25519 | Key derivation: HKDF, PBKDF2 | Random number generation: TRNG with health tests | . How are keys protected in OSSE? . Keys in OSSE are protected through multiple mechanisms: . | Hardware isolation of the secure core | Encrypted storage for keys at rest | Memory protection to prevent unauthorized access | Key usage policies that can restrict operations | Physical tamper detection and response | . Can OSSE be used as a hardware wallet? . Yes, OSSE is designed to function as a hardware wallet with these features: . | Support for multiple cryptocurrencies | Implementation of BIP-32/44/39 standards | EIP-712 structured data signing | Secure display and input options for transaction verification | . How is the supply chain secured? . OSSE implements blockchain-based supply chain verification: . | Each device receives a unique attestation key during manufacturing | Manufacturing steps are recorded on a blockchain | End users can verify the authenticity of their device | The entire manufacturing process is documented and transparent | . ",
+    "url": "/open-source-secure-element/faq/#technical-questions",
+    
+    "relUrl": "/faq/#technical-questions"
+  },"37": {
+    "doc": "FAQ",
+    "title": "Development Questions",
+    "content": "How can I contribute to the OSSE project? . We welcome contributions in several areas: . | Hardware design improvements | Firmware development | Host software and libraries | Documentation and examples | Security auditing and testing | . See our Contributing Guide for more details. What development environment do I need? . To work with OSSE, you’ll need: . | For hardware: EDA tools like KiCad | For firmware: GCC toolchain for RISC-V | For host software: Depends on your platform (C/C++, Python, etc.) | Common requirements are documented in the project repository | . Are there development boards available? . Development boards are currently in the prototype phase. We plan to make them available to developers in the near future. Sign up for our mailing list to be notified when they become available. How can I test my integration without hardware? . We provide a software emulator that mimics the behavior of the OSSE hardware: . | Implements the same API as the hardware | Allows for testing without physical devices | Supports debugging of integration issues | Available in our GitHub repository | . ",
+    "url": "/open-source-secure-element/faq/#development-questions",
+    
+    "relUrl": "/faq/#development-questions"
+  },"38": {
+    "doc": "FAQ",
+    "title": "Support and Community",
+    "content": "Where can I get help with OSSE? . Support is available through several channels: . | GitHub Issues for bug reports and feature requests | Discussion Forum for general questions | Developer Chat for real-time discussions | Stack Overflow using the “osse” tag | . Is commercial support available? . Yes, commercial support is available through Etherisc and partner organizations. Contact contact@etherisc.com for more information about commercial support options. How can I stay updated on the project? . Stay informed about OSSE developments through: . | GitHub repository (watch/star) | Twitter | Monthly newsletter | RSS feed | . ",
+    "url": "/open-source-secure-element/faq/#support-and-community",
+    
+    "relUrl": "/faq/#support-and-community"
+  },"39": {
+    "doc": "FAQ",
+    "title": "FAQ",
+    "content": " ",
+    "url": "/open-source-secure-element/faq/",
+    
+    "relUrl": "/faq/"
+  },"40": {
+    "doc": "Implementation Details",
+    "title": "Implementation Details",
+    "content": "This page outlines the specific implementation details for the Open Source Secure Element (OSSE) project, focusing on the technical aspects of the hardware wallet development. ",
+    "url": "/open-source-secure-element/technical/implementation.html",
+    
+    "relUrl": "/technical/implementation.html"
+  },"41": {
+    "doc": "Implementation Details",
+    "title": "Hardware Implementation",
+    "content": "Secure Element Design . The secure element will be implemented using the OpenTitan framework, which provides: . | A fully open-source design for secure microcontrollers | Cryptographic acceleration for common algorithms | Secure boot capabilities | Memory protection and isolation features | Tamper resistance mechanisms | . The initial implementation will use the ChipWhisperer CW340 FPGA board to prototype the secure element functionality before moving to a custom hardware design. Physical Components . The hardware wallet will include: . | Main Processor: RISC-V based processor (Ibex core from OpenTitan) | Secure Storage: For encrypted key storage | Display: OLED or LCD display for showing transaction details | Input Buttons: For user interaction and transaction approval | USB Interface: For connectivity with host devices | Power Management: For efficient battery usage and power protection | . ",
+    "url": "/open-source-secure-element/technical/implementation.html#hardware-implementation",
+    
+    "relUrl": "/technical/implementation.html#hardware-implementation"
+  },"42": {
+    "doc": "Implementation Details",
+    "title": "Software Implementation",
+    "content": "Firmware Architecture . The firmware will be structured in layers: . | Hardware Abstraction Layer: Interfaces directly with the hardware | Cryptographic Services: Implements cryptographic operations | Wallet Core: Manages keys and transactions | User Interface: Handles display and user input | Communication Protocol: Manages external communications | . Key Management . The wallet will implement secure key management: . | Key Generation: Using hardware random number generation | Key Derivation: Following BIP-32/BIP-39/BIP-44 standards | Key Storage: Encrypted storage with hardware protection | Key Usage: Secure signing operations without exposing private keys | . Transaction Signing . The wallet will support: . | EIP-712 Structured Data Signing: For clear transaction representation | Transaction Parsing: To display human-readable transaction details | Approval Mechanism: Requiring explicit user confirmation | Multiple Signature Schemes: Supporting various cryptographic algorithms | . ",
+    "url": "/open-source-secure-element/technical/implementation.html#software-implementation",
+    
+    "relUrl": "/technical/implementation.html#software-implementation"
+  },"43": {
+    "doc": "Implementation Details",
+    "title": "Security Implementation",
+    "content": "Hardware Security Measures . | Side-Channel Attack Protection: Implementing countermeasures against power analysis and electromagnetic analysis | Physical Tamper Resistance: Designing the hardware to resist physical tampering | Secure Element Isolation: Ensuring the secure element is isolated from other components | . Software Security Measures . | Secure Boot Chain: Verifying firmware integrity at startup | Memory Protection: Preventing unauthorized access to sensitive memory regions | Input Validation: Thoroughly validating all inputs to prevent attacks | Secure Update Mechanism: Allowing secure firmware updates while preventing downgrade attacks | . ",
+    "url": "/open-source-secure-element/technical/implementation.html#security-implementation",
+    
+    "relUrl": "/technical/implementation.html#security-implementation"
+  },"44": {
+    "doc": "Implementation Details",
+    "title": "Supply Chain Documentation",
+    "content": "The project will implement a blockchain-based supply chain documentation system: . | Component Tracking: Recording the origin and manufacturing details of critical components | Assembly Verification: Documenting the assembly process | Tamper Evidence: Providing evidence of any tampering attempts | Ownership Transfer: Tracking the chain of custody from manufacturing to end-user | . ",
+    "url": "/open-source-secure-element/technical/implementation.html#supply-chain-documentation",
+    
+    "relUrl": "/technical/implementation.html#supply-chain-documentation"
+  },"45": {
+    "doc": "Implementation Details",
+    "title": "Insurability Features",
+    "content": "To enable insurance for the non-custodial wallet, the implementation will include: . | Address Whitelisting/Blacklisting: Allowing users to restrict transactions to approved addresses | Transaction Limits: Setting limits on transaction amounts | Multi-Signature Support: Requiring multiple approvals for high-value transactions | Social Recovery: Implementing secure recovery mechanisms for lost devices | Audit Logging: Maintaining secure logs of wallet activities for insurance claims | . These implementation details will evolve as the project progresses, with updates and refinements based on testing, security audits, and community feedback. ",
+    "url": "/open-source-secure-element/technical/implementation.html#insurability-features",
+    
+    "relUrl": "/technical/implementation.html#insurability-features"
+  },"46": {
+    "doc": "Future Plans",
+    "title": "Future Plans",
+    "content": "This section outlines the risks, challenges, and future plans for the Open Source Secure Element (OSSE) project beyond the initial grant-funded development phase. Understanding both the potential obstacles and the long-term vision is essential for the project’s success and sustainability. ",
+    "url": "/open-source-secure-element/future/",
+    
+    "relUrl": "/future/"
+  },"47": {
+    "doc": "Future Plans",
+    "title": "Overview",
+    "content": "The OSSE project is designed with a clear vision that extends beyond the initial 6-month feasibility study and prototype development phase. While the grant-funded portion focuses on establishing the technical foundation and creating a working prototype, the long-term plan involves scaling the project for widespread adoption and ensuring its sustainability. ",
+    "url": "/open-source-secure-element/future/#overview",
+    
+    "relUrl": "/future/#overview"
+  },"48": {
+    "doc": "Future Plans",
+    "title": "Key Areas",
+    "content": "Risk Management . The project team has identified several critical risks and challenges that could impact the project’s implementation and success. These include technical challenges, hardware component availability, supply chain documentation complexity, security risks, community adoption issues, market and insurance challenges, and financial constraints. Detailed information about these risks and the corresponding mitigation strategies can be found on the Risks &amp; Challenges page. Post-Grant Plans . Upon completing the grant-funded development phases, the focus will shift to scaling the project for widespread adoption and ensuring its sustainability. This includes: . | Serial Production: Transitioning from prototype to large-scale production | Ecosystem Integration: Collaborating with Ethereum projects and platforms | Insurance Solutions: Expanding insurability features and insurance products | Open-Source Development: Maintaining and improving the project as an open-source initiative | New Applications: Exploring new use cases and markets | . For more details about the post-grant plans, please visit the Post-Grant Plans page. ",
+    "url": "/open-source-secure-element/future/#key-areas",
+    
+    "relUrl": "/future/#key-areas"
+  },"49": {
+    "doc": "Future Plans",
+    "title": "Commitment to Open Source",
+    "content": "Throughout all future phases, the project will maintain its commitment to open-source principles, ensuring that all developments remain transparent, accessible, and beneficial to the broader community. This commitment aligns with the project’s goal of creating a public good that addresses critical gaps in the blockchain ecosystem. ",
+    "url": "/open-source-secure-element/future/#commitment-to-open-source",
+    
+    "relUrl": "/future/#commitment-to-open-source"
+  },"50": {
+    "doc": "Impact & Value",
+    "title": "Project Impact &amp; Value",
+    "content": "The Open Source Secure Element (OSSE) project addresses critical gaps in security, transparency, and insurability within the crypto ecosystem. These gaps currently limit the broader adoption of decentralized finance tools and prevent users from confidently managing their assets. ",
+    "url": "/open-source-secure-element/impact/#project-impact--value",
+    
+    "relUrl": "/impact/#project-impact--value"
+  },"51": {
+    "doc": "Impact & Value",
+    "title": "Why This Project Is Important",
+    "content": "1. Enhancing Security and Trust . Existing hardware wallets rely on proprietary designs, making them opaque and difficult to verify for vulnerabilities. This lack of transparency undermines trust, especially for users with significant crypto holdings. By developing an open-source hardware wallet, this project empowers users with a verifiable, secure solution, fostering trust in decentralized finance. 2. Enabling Insurability for Non-Custodial Wallets . Insurance for crypto wallets is currently limited to custodial solutions, leaving non-custodial users exposed to risks. This project bridges the gap by integrating compliance mechanisms such as address whitelisting and blacklisting, enabling tailored insurance solutions. This innovation will provide non-custodial users with the confidence and protection they need to manage their assets. 3. Addressing Supply Chain Security . The lack of verifiable supply chain documentation for hardware wallets creates vulnerabilities, including the risk of tampering. By documenting the supply chain on a blockchain, this project ensures transparency and security from production to deployment, meeting the demands of a growing user base that prioritizes accountability. 4. Supporting Broader Crypto Adoption . As more individuals and institutions adopt crypto, the demand for secure, transparent, and insurable solutions is growing. Users expect tools that combine the security of traditional financial systems with the autonomy of decentralized systems. This project meets this demand by delivering a hardware wallet designed to address these specific needs. 5. Aligning with Market Trends and Industry Growth . The hardware wallet market is projected to grow substantially in the coming years, driven by increasing crypto adoption and the need for secure solutions. By leveraging open-source principles and innovative features, this project is poised to lead the market while contributing to the broader Ethereum ecosystem. ",
+    "url": "/open-source-secure-element/impact/#why-this-project-is-important",
+    
+    "relUrl": "/impact/#why-this-project-is-important"
+  },"52": {
+    "doc": "Impact & Value",
+    "title": "Evidence of Importance and Demand",
+    "content": ". | User Feedback: Studies and surveys consistently highlight security and trust as top concerns for crypto users. Many users prefer non-custodial wallets but hesitate due to perceived risks. | Market Trends: The growing popularity of decentralized finance (DeFi) and the rise in digital asset values underscore the need for robust wallet solutions. | Industry Collaboration: The involvement of (Redacted*) and other stakeholders demonstrates recognition of the project’s significance within the industry. | Existing Gaps: No current solution offers the combination of open-source transparency, blockchain-based supply chain documentation, and insurability. | . This project is essential for fostering trust, security, and adoption in the crypto ecosystem, aligning with the Ethereum Foundation’s mission to support innovative and impactful projects. *) The name of the leading german security research facility will be revealed when the project is funded. ",
+    "url": "/open-source-secure-element/impact/#evidence-of-importance-and-demand",
+    
+    "relUrl": "/impact/#evidence-of-importance-and-demand"
+  },"53": {
+    "doc": "Impact & Value",
+    "title": "Impact & Value",
+    "content": " ",
+    "url": "/open-source-secure-element/impact/",
+    
+    "relUrl": "/impact/"
+  },"54": {
+    "doc": "Team",
+    "title": "Team Profile",
+    "content": " ",
+    "url": "/open-source-secure-element/team/#team-profile",
+    
+    "relUrl": "/team/#team-profile"
+  },"55": {
+    "doc": "Team",
+    "title": "Etherisc GmbH",
+    "content": "Etherisc is a pioneering project in the field of decentralized insurance, dedicated to creating an open and accessible platform for blockchain-based insurance solutions. The organization has a robust track record of building innovative products in collaboration with renowned partners, such as Lemonade Insurance, KfW, and Hannover Re. Etherisc’s work bridges blockchain technology and the insurance industry, fostering trust and transparency in decentralized finance. Further details about Etherisc’s projects and accomplishments can be found on the official website: https://etherisc.com. ",
+    "url": "/open-source-secure-element/team/#etherisc-gmbh",
+    
+    "relUrl": "/team/#etherisc-gmbh"
+  },"56": {
+    "doc": "Team",
+    "title": "Team Members",
+    "content": "Christoph Mussenbrock . Co-Founder of Etherisc, Christoph has an extensive background in the cooperative banking sector in Germany. He served on the board of a cooperative bank before transitioning to the IT sector, where he became Chief Program Manager for Credit Solutions and Chief of Strategy Development at Fiducia &amp; GAD IT AG, one of Germany’s largest IT service providers. Christoph holds a master’s degree in mathematics, with a thesis focused on formal soft- and hardware verification. Dr. Matthias Zimmermann . As the CTO of Etherisc, Matthias brings a wealth of experience in software architecture and blockchain-based solutions. His expertise lies in developing scalable and secure decentralized applications, making him instrumental in advancing Etherisc’s technological initiatives. Team of (Redacted*) . Our security research partner contributes a team of leading hardware security professionals, who are experienced in the state of the art of hardware design and protection. They operate one of the most sophisticated hardware labs, a state-of-the-art facility dedicated to the comprehensive analysis and enhancement of hardware security. Equipped with advanced tools and technologies, the lab specializes in evaluating and fortifying integrated circuits, microchips, and multi-chip modules against a wide array of physical and logical attack vectors.​ . Key Areas of Expertise: . | Side-Channel Analysis: The lab conducts in-depth examinations of cryptographic implementations to detect vulnerabilities that may leak sensitive information through indirect channels such as power consumption or electromagnetic emissions. Utilizing high-precision measurement equipment, researchers perform sophisticated attacks—including Differential Power Analysis (DPA) and Electromagnetic Analysis (EMA)—to assess and improve the resilience of hardware against such threats. ​ . | Fault Injection Attacks: Researchers employ techniques to deliberately induce faults in hardware systems to study their effects on security. The lab is equipped with multiple laser stations capable of frontside and backside fault injection, allowing for precise manipulation of electronic circuits. These methods are instrumental in evaluating a device’s robustness against attacks that exploit induced errors to extract secret information or alter execution flows. ​ . | Hardware Penetration Testing: The lab offers offensive security analyses of embedded systems, identifying and addressing vulnerabilities arising from design flaws or insecure configurations. This includes evaluating firmware and intellectual property protection features in microcontrollers, as well as assessing the security of various interfaces and communication protocols. ​ . | Tamper Protection and Physical Unclonable Functions (PUFs): To safeguard against physical tampering, the lab develops and evaluates tamper protection methods, including the use of PUFs. These unique hardware fingerprints assess the physical integrity of devices, ensuring that any unauthorized alterations are detectable. ​ . | Machine Learning Applications in Security: The integration of machine learning techniques enhances the analysis of complex data derived from side-channel measurements and sensor networks. By applying advanced algorithms, the lab improves the detection of subtle vulnerabilities and refines countermeasure strategies. ​ aisec.fraunhofer.de . | . In recognition of its rigorous standards and capabilities, the Hardware Security Lab achieved certification to Evaluation Assurance Level 7 (EAL 7) under the Common Criteria in 2024. This distinction underscores the lab’s commitment to providing top-tier security evaluations for both hardware and software systems. ​ . ",
+    "url": "/open-source-secure-element/team/#team-members",
+    
+    "relUrl": "/team/#team-members"
+  },"57": {
+    "doc": "Team",
+    "title": "Contact Information",
+    "content": ". | Organization: Etherisc GmbH | Contact: Christoph Mussenbrock | Email: christoph@etherisc.com | Twitter: @etherisc | Website: https://etherisc.com | Location: Munich, Germany | Time Zone: CET/CEST | . ",
+    "url": "/open-source-secure-element/team/#contact-information",
+    
+    "relUrl": "/team/#contact-information"
+  },"58": {
+    "doc": "Team",
+    "title": "Team",
+    "content": " ",
+    "url": "/open-source-secure-element/team/",
+    
+    "relUrl": "/team/"
+  },"59": {
+    "doc": "Project Overview",
+    "title": "Project Overview",
+    "content": " ",
+    "url": "/open-source-secure-element/project/",
+    
+    "relUrl": "/project/"
+  },"60": {
+    "doc": "Project Overview",
+    "title": "Building the world’s first Open Source Secure Element",
+    "content": "This project aims to develop the first fully open-source hardware wallet, built around a secure element based on the OpenTitan framework, designed to address critical security and transparency needs in the crypto ecosystem. The wallet will provide robust support for Ethereum standards, such as EIP-712 for transaction signing, and will integrate blockchain-based supply chain documentation to ensure trust and verifiability. By combining open-source software and hardware with tailored insurance solutions, this project will deliver the first insurable, non-custodial crypto wallet. It will be an affordable and transparent alternative to proprietary wallets, fostering broader adoption of secure decentralized finance tools. The secure element, which is at the core of the project, will also provide a key component for numerous cryptographic applications, e.g. Complete Knowledge Proofs and validator hardware. ",
+    "url": "/open-source-secure-element/project/#building-the-worlds-first-open-source-secure-element",
+    
+    "relUrl": "/project/#building-the-worlds-first-open-source-secure-element"
+  },"61": {
+    "doc": "Project Overview",
+    "title": "Project Repository",
+    "content": "The project is being developed openly on GitHub: https://github.com/etherisc/open-source-secure-element . ",
+    "url": "/open-source-secure-element/project/#project-repository",
+    
+    "relUrl": "/project/#project-repository"
+  },"62": {
+    "doc": "Project Overview",
+    "title": "Project Category",
+    "content": "Security . ",
+    "url": "/open-source-secure-element/project/#project-category",
+    
+    "relUrl": "/project/#project-category"
+  },"63": {
+    "doc": "Project Overview",
+    "title": "Current Status",
+    "content": "The project is currently in its initial development phase. While a Minimum Viable Product (MVP) has not yet been created, significant groundwork has been laid to establish the technical foundation. Development boards for the OpenTitan project are available, including the ChipWhisperer CW340 FPGA board, which will serve as the basis for the hardware wallet’s prototype. (Redacted*) and Etherisc have signed a Letter of Intent (LOI) to collaborate on the design and implementation of the secure hardware wallet. ",
+    "url": "/open-source-secure-element/project/#current-status",
+    
+    "relUrl": "/project/#current-status"
+  },"64": {
+    "doc": "Project Overview",
+    "title": "Research and Planning",
+    "content": "Research and planning efforts have focused on leveraging the OpenTitan framework, which provides a transparent, open-source reference design for silicon root-of-trust (RoT) chips. The project roadmap includes using the CW340 development board to prototype the wallet’s core functionality, such as secure key generation, transaction signing, and encrypted key storage. The current stage involves feasibility studies and architecture planning, with a clear pathway toward creating a fully functioning prototype ready for serial production. *) The name of the leading german security research facility will be revealed when the project is funded. ",
+    "url": "/open-source-secure-element/project/#research-and-planning",
+    
+    "relUrl": "/project/#research-and-planning"
+  },"65": {
+    "doc": "Technical Approach",
+    "title": "Technical Approach",
+    "content": "The Open Source Secure Element (OSSE) project takes a comprehensive technical approach to developing a secure, transparent, and insurable hardware wallet. This section outlines the key technical components and methodologies that will be employed throughout the project. ",
+    "url": "/open-source-secure-element/technical/",
+    
+    "relUrl": "/technical/"
+  },"66": {
+    "doc": "Technical Approach",
+    "title": "OpenTitan Framework",
+    "content": "At the core of the project is the OpenTitan framework, an open-source silicon root of trust (RoT) project that provides a transparent and secure foundation for hardware development. OpenTitan offers: . | Open-source Hardware: Fully transparent and auditable hardware designs | Security Features: Secure boot, key management, and cryptographic operations | Industry Support: Backed by Google and other major technology companies | RISC-V Architecture: Based on the open RISC-V instruction set architecture | . By leveraging OpenTitan, the project ensures that the hardware wallet’s most critical security components are transparent, auditable, and built on industry-standard security practices. ",
+    "url": "/open-source-secure-element/technical/#opentitan-framework",
+    
+    "relUrl": "/technical/#opentitan-framework"
+  },"67": {
+    "doc": "Technical Approach",
+    "title": "Hardware Components",
+    "content": "The hardware wallet will be developed using: . | ChipWhisperer CW340 FPGA Board: For initial prototyping and development | RISC-V Architecture: For the main processor, using the Ibex core from OpenTitan | Secure Element: Based on OpenTitan’s silicon RoT design | Display: For showing transaction details and wallet information | Input Mechanism: For user authentication and transaction approval | Communication Interfaces: USB and potentially Bluetooth for device connectivity | . ",
+    "url": "/open-source-secure-element/technical/#hardware-components",
+    
+    "relUrl": "/technical/#hardware-components"
+  },"68": {
+    "doc": "Technical Approach",
+    "title": "Software Architecture",
+    "content": "The software architecture will include: . | Firmware: Low-level code running on the secure element | Wallet Application: User interface and transaction management | Cryptographic Libraries: For key generation, signing, and encryption | EIP-712 Implementation: For secure and transparent transaction signing | Blockchain Integration: For interacting with Ethereum and other blockchains | . ",
+    "url": "/open-source-secure-element/technical/#software-architecture",
+    
+    "relUrl": "/technical/#software-architecture"
+  },"69": {
+    "doc": "Technical Approach",
+    "title": "Security Features",
+    "content": "The wallet will incorporate several security features: . | Secure Key Generation: Using hardware-based random number generation | Encrypted Key Storage: Protecting private keys at rest | Transaction Verification: Displaying transaction details on-device | Address Whitelisting/Blacklisting: For enhanced security and insurability | Social Recovery Options: For key recovery in case of device loss | Supply Chain Documentation: Using blockchain to verify hardware components | . ",
+    "url": "/open-source-secure-element/technical/#security-features",
+    
+    "relUrl": "/technical/#security-features"
+  },"70": {
+    "doc": "Technical Approach",
+    "title": "Development Approach",
+    "content": "The development will follow these methodologies: . | Open-Source Development: All code and hardware designs will be publicly available | Security-First Design: Implementing security at every layer of the stack | Iterative Prototyping: Building and testing incrementally to identify issues early | Community Engagement: Involving the open-source community in development and review | Comprehensive Testing: Including security audits and penetration testing | . The technical approach balances security, transparency, and usability, ensuring that the final product meets the needs of both individual users and the broader Ethereum ecosystem. ",
+    "url": "/open-source-secure-element/technical/#development-approach",
+    
+    "relUrl": "/technical/#development-approach"
+  },"71": {
+    "doc": "Project Timeline",
+    "title": "Project Timeline",
+    "content": "The Open Source Secure Element (OSSE) project is planned as a 6-month feasibility study and prototype development phase. This section outlines the project timeline and key milestones. ",
+    "url": "/open-source-secure-element/timeline/",
+    
+    "relUrl": "/timeline/"
+  },"72": {
+    "doc": "Project Timeline",
+    "title": "Project Duration",
+    "content": ". | Total Duration: 6 months | Start Date: Upon funding approval | End Date: 6 months after project initiation | . ",
+    "url": "/open-source-secure-element/timeline/#project-duration",
+    
+    "relUrl": "/timeline/#project-duration"
+  },"73": {
+    "doc": "Project Timeline",
+    "title": "Key Milestones",
+    "content": ". | Month 1: Completion of the feasibility study . | Analysis of the OpenTitan framework | Design of the blockchain-based supply chain documentation system | Evaluation of security features and their integration with Ethereum standards | . | Month 2-3: Development environment setup . | Configuration of the CW340 Luna FPGA board | Implementation of basic secure element functionality | Setup of development and testing environments | . | Month 4-5: Prototype development . | Implementation of secure key generation | Development of transaction signing capabilities | Integration of encrypted key storage | . | Month 6: Testing and documentation . | Security testing and validation | Documentation of the prototype | Preparation of the final report and blueprint for serial production | . | . ",
+    "url": "/open-source-secure-element/timeline/#key-milestones",
+    
+    "relUrl": "/timeline/#key-milestones"
+  },"74": {
+    "doc": "Project Timeline",
+    "title": "Deliverables",
+    "content": ". | Feasibility Study Report: Comprehensive analysis of the OpenTitan framework and its suitability for the hardware wallet | Functional Prototype: Working prototype on the CW340 Luna FPGA board with basic hardware wallet functionality | Technical Documentation: Detailed documentation of the prototype’s design and implementation | Blueprint for Serial Production: Guidelines and specifications for the serial production of the secure element | . ",
+    "url": "/open-source-secure-element/timeline/#deliverables",
+    
+    "relUrl": "/timeline/#deliverables"
+  },"75": {
+    "doc": "Home",
+    "title": "Building the world’s first Open Source Secure Element",
+    "content": "The Open Source Secure Element (OSSE) project aims to develop the first fully open-source secure element based on the OpenTitan framework, designed to address critical security and transparency needs in the crypto ecosystem. One of the first and most important applications would be an insurable crypto hardware wallet. ",
+    "url": "/open-source-secure-element/#building-the-worlds-first-open-source-secure-element",
+    
+    "relUrl": "/#building-the-worlds-first-open-source-secure-element"
+  },"76": {
+    "doc": "Home",
+    "title": "Project Overview",
+    "content": "This project will deliver an open source secure element and hardware wallet that provides: . | Robust support for Ethereum standards, such as EIP-712 for transaction signing | Blockchain-based supply chain documentation to ensure trust and verifiability | Integration with tailored insurance solutions for non-custodial wallets | An affordable and transparent alternative to proprietary wallets | . The secure element at the core of the project will also provide a key component for numerous cryptographic applications, including Complete Knowledge Proofs and validator hardware. ",
+    "url": "/open-source-secure-element/#project-overview",
+    
+    "relUrl": "/#project-overview"
+  },"77": {
+    "doc": "Home",
+    "title": "Key Features",
+    "content": ". | Open Source Design: Fully transparent hardware and software components | Secure Element: Based on the OpenTitan framework for silicon root-of-trust | Insurability: First non-custodial wallet with insurance capabilities | Supply Chain Transparency: Blockchain-based documentation of hardware components | Enhanced Security: Support for EIP-712 and elimination of blind signing | . ",
+    "url": "/open-source-secure-element/#key-features",
+    
+    "relUrl": "/#key-features"
+  },"78": {
+    "doc": "Home",
+    "title": "Project Status",
+    "content": "The project is currently in its initial development phase, with significant groundwork laid to establish the technical foundation. Development boards for the OpenTitan project are available, including the ChipWhisperer CW340 FPGA board, which will serve as the basis for the hardware wallet’s prototype. Etherisc has signed an LoI with a leading german security research facility, which will be revealed when the project is funded. Learn more about the project Meet the team . ",
+    "url": "/open-source-secure-element/#project-status",
+    
+    "relUrl": "/#project-status"
+  },"79": {
+    "doc": "Home",
+    "title": "Home",
+    "content": " ",
+    "url": "/open-source-secure-element/",
+    
+    "relUrl": "/"
+  },"80": {
+    "doc": "Integration Options",
+    "title": "Integration Options",
+    "content": "The Open Source Secure Element (OSSE) is designed to be integrated into various systems and applications. This page outlines the different integration options available. ",
+    "url": "/open-source-secure-element/integration/",
+    
+    "relUrl": "/integration/"
+  },"81": {
+    "doc": "Integration Options",
+    "title": "Hardware Integration",
+    "content": "Standalone Module . The OSSE can be used as a standalone hardware security module (HSM) with the following interfaces: . | USB connection (USB-C) | I2C for embedded systems | SPI for high-speed communication | . Embedded Integration . For embedded applications, the OSSE can be integrated directly onto a PCB: . | Reference design available for direct integration | Minimal external components required | Power requirements: 3.3V, &lt; 100mA typical | . ",
+    "url": "/open-source-secure-element/integration/#hardware-integration",
+    
+    "relUrl": "/integration/#hardware-integration"
+  },"82": {
+    "doc": "Integration Options",
+    "title": "Software Integration",
+    "content": "Host Libraries . The OSSE provides host libraries for various platforms: . | C/C++ library for low-level integration | Python bindings for rapid development | JavaScript/TypeScript for web applications | . Example of using the C library: . #include \"osse_lib.h\" int main() { osse_context_t ctx; osse_result_t result; // Initialize the OSSE result = osse_init(&amp;ctx); if (result != OSSE_SUCCESS) { return -1; } // Generate a new key pair uint8_t public_key[32]; result = osse_generate_keypair(ctx, \"my_key\", public_key); // Sign a message uint8_t message[] = \"Hello, OSSE!\"; uint8_t signature[64]; result = osse_sign(ctx, \"my_key\", message, sizeof(message), signature); // Clean up osse_deinit(ctx); return 0; } . Web Integration . For web applications, the OSSE can be accessed via: . | WebUSB API for direct browser access | WebAuthn/FIDO2 for authentication scenarios | REST API when using a host application | . Example of WebUSB integration: . async function connectToOSSE() { try { const device = await navigator.usb.requestDevice({ filters: [{ vendorId: 0x1234 }] // OSSE vendor ID }); await device.open(); await device.selectConfiguration(1); await device.claimInterface(0); console.log('Connected to OSSE device'); return device; } catch (error) { console.error('Error connecting to OSSE:', error); } } . ",
+    "url": "/open-source-secure-element/integration/#software-integration",
+    
+    "relUrl": "/integration/#software-integration"
+  },"83": {
+    "doc": "Integration Options",
+    "title": "Blockchain Integration",
+    "content": "Note: Blockchain integration features are currently in beta. Ethereum Support . The OSSE provides native support for Ethereum operations: . | EIP-712 structured data signing | BIP-32/44/39 HD wallet derivation | Transaction signing and verification | . Supply Chain Verification . The OSSE includes blockchain-based supply chain verification: . | Each device has a unique attestation key | Manufacturing steps are recorded on-chain | End users can verify device authenticity | . ",
+    "url": "/open-source-secure-element/integration/#blockchain-integration",
+    
+    "relUrl": "/integration/#blockchain-integration"
+  },"84": {
+    "doc": "Integration Options",
+    "title": "Integration Examples",
+    "content": "| Use Case | Integration Method | Key Features | . | Hardware Wallet | Standalone USB | Transaction signing, Key management | . | IoT Security | Embedded (I2C/SPI) | Secure boot, Attestation | . | Server HSM | PCIe Card | High throughput, Multiple key storage | . | Authentication | WebAuthn/FIDO2 | Passwordless login, Multi-factor auth | . ",
+    "url": "/open-source-secure-element/integration/#integration-examples",
+    
+    "relUrl": "/integration/#integration-examples"
+  },"85": {
+    "doc": "Integration Options",
+    "title": "Getting Support",
+    "content": "For integration support: . | Check the API Reference for detailed documentation | Join our Developer Community | Submit integration questions on GitHub Issues | . ",
+    "url": "/open-source-secure-element/integration/#getting-support",
+    
+    "relUrl": "/integration/#getting-support"
+  },"86": {
+    "doc": "Post-Grant Plans",
+    "title": "Post-Grant Plans",
+    "content": "Upon completing the grant-funded development phases, the focus will shift to scaling the project for widespread adoption and ensuring its sustainability. The key plans include: . ",
+    "url": "/open-source-secure-element/future/plans.html",
+    
+    "relUrl": "/future/plans.html"
+  },"87": {
+    "doc": "Post-Grant Plans",
+    "title": "1. Serial Production of the Hardware Wallet",
+    "content": ". | Funding: Seek funding from institutional investors, strategic partners, or crowdfunding campaigns to finance the serial production of the hardware wallet. | Manufacturing Partnerships: Establish partnerships with hardware manufacturers to transition from prototype to large-scale production while maintaining the transparency and security standards established during development. | Quality Assurance: Implement rigorous quality control processes to ensure the integrity and security of each device produced. | . ",
+    "url": "/open-source-secure-element/future/plans.html#1-serial-production-of-the-hardware-wallet",
+    
+    "relUrl": "/future/plans.html#1-serial-production-of-the-hardware-wallet"
+  },"88": {
+    "doc": "Post-Grant Plans",
+    "title": "2. Large-Scale Adoption and Ecosystem Integration",
+    "content": ". | Ecosystem Collaboration: Collaborate with Ethereum ecosystem projects, such as Firefly Wallet and WalletConnect, to promote the hardware wallet as a secure signing device. | Community Outreach: Engage in community outreach and educational initiatives to onboard developers and users, demonstrating the wallet’s functionality and advantages. | Strategic Partnerships: Partner with crypto exchanges, DeFi platforms, and enterprise users to integrate the wallet into broader use cases, such as institutional custody or validator operations. | User Experience Refinement: Continuously improve the user experience based on feedback from early adopters and community members. | . ",
+    "url": "/open-source-secure-element/future/plans.html#2-large-scale-adoption-and-ecosystem-integration",
+    
+    "relUrl": "/future/plans.html#2-large-scale-adoption-and-ecosystem-integration"
+  },"89": {
+    "doc": "Post-Grant Plans",
+    "title": "3. Expansion of Insurance Solutions",
+    "content": ". | Insurance Partnerships: Work with ver.de AG and other insurance providers to refine and expand the insurability features, offering tailored insurance products to a wider audience. | Innovative Insurance Models: Use the wallet’s compliance mechanisms to explore innovative insurance models, such as dynamic coverage for DeFi risks. | Regulatory Engagement: Engage with regulatory bodies to ensure that insurance solutions comply with relevant regulations and standards. | Risk Assessment Framework: Develop a comprehensive risk assessment framework for crypto assets and wallets to support insurance underwriting. | . ",
+    "url": "/open-source-secure-element/future/plans.html#3-expansion-of-insurance-solutions",
+    
+    "relUrl": "/future/plans.html#3-expansion-of-insurance-solutions"
+  },"90": {
+    "doc": "Post-Grant Plans",
+    "title": "4. Continued Open-Source Development",
+    "content": ". | Community Maintenance: Maintain and improve the wallet’s hardware and software as an open-source project, incorporating community feedback and addressing emerging security needs. | Supply Chain Transparency: Expand the blockchain-based supply chain transparency system for use in other hardware projects, creating a reusable public good for the crypto ecosystem. | Security Research: Fund ongoing security research to identify and address potential vulnerabilities in the wallet design. | Documentation and Education: Develop comprehensive documentation and educational resources to support developers and users. | . ",
+    "url": "/open-source-secure-element/future/plans.html#4-continued-open-source-development",
+    
+    "relUrl": "/future/plans.html#4-continued-open-source-development"
+  },"91": {
+    "doc": "Post-Grant Plans",
+    "title": "5. Explore New Applications and Markets",
+    "content": ". | New Use Cases: Leverage the wallet’s secure element design to support emerging applications such as zero-knowledge proofs, IoT devices, and validator hardware. | Market Expansion: Explore new markets, including underrepresented regions, by offering an affordable and accessible hardware wallet solution tailored to their needs. | Enterprise Solutions: Develop enterprise-grade solutions based on the secure element technology for institutional users with specific security requirements. | Integration with Emerging Standards: Ensure compatibility with emerging cryptographic standards and blockchain protocols. | . ",
+    "url": "/open-source-secure-element/future/plans.html#5-explore-new-applications-and-markets",
+    
+    "relUrl": "/future/plans.html#5-explore-new-applications-and-markets"
+  },"92": {
+    "doc": "Post-Grant Plans",
+    "title": "Alternative Directions",
+    "content": "If the project were not to continue as planned, the team would focus on other initiatives aligned with Etherisc’s mission to enhance trust, security, and accessibility in decentralized finance, such as: . | Advancing decentralized insurance solutions | Developing smart contract-based financial tools | Exploring hardware solutions for validator operations | Researching and implementing privacy-preserving technologies | Scaling adoption of blockchain for social impact | . These plans ensure the project’s long-term impact, enabling it to scale beyond its initial development phases and deliver lasting value to the Ethereum ecosystem and the broader blockchain community. ",
+    "url": "/open-source-secure-element/future/plans.html#alternative-directions",
+    
+    "relUrl": "/future/plans.html#alternative-directions"
+  },"93": {
+    "doc": "Problems Addressed",
+    "title": "Problems Being Addressed",
+    "content": "The Open Source Secure Element project addresses several critical challenges in the cryptocurrency ecosystem: . ",
+    "url": "/open-source-secure-element/project/problems.html#problems-being-addressed",
+    
+    "relUrl": "/project/problems.html#problems-being-addressed"
+  },"94": {
+    "doc": "Problems Addressed",
+    "title": "Lack of Transparency in Hardware Wallets",
+    "content": "Problem: Most hardware wallets use proprietary secure elements with closed-source designs, making it impossible to fully audit their security. Need: A hardware wallet with a secure element based on an open framework, like OpenTitan, with fully documented and inspectable components to ensure trust and transparency. ",
+    "url": "/open-source-secure-element/project/problems.html#lack-of-transparency-in-hardware-wallets",
+    
+    "relUrl": "/project/problems.html#lack-of-transparency-in-hardware-wallets"
+  },"95": {
+    "doc": "Problems Addressed",
+    "title": "Inadequate Supply Chain Documentation",
+    "content": "Current solutions fail to provide verifiable documentation of the hardware supply chain, making it difficult to detect tampering or interference during production and distribution. This lack of visibility undermines the security of the hardware. ",
+    "url": "/open-source-secure-element/project/problems.html#inadequate-supply-chain-documentation",
+    
+    "relUrl": "/project/problems.html#inadequate-supply-chain-documentation"
+  },"96": {
+    "doc": "Problems Addressed",
+    "title": "Absence of Insurable Non-Custodial Wallets",
+    "content": "While custodial wallets and providers may offer insurance, non-custodial wallets, which are essential for decentralization and user autonomy, are largely uninsurable due to a lack of enforceable compliance mechanisms and transparent designs. ",
+    "url": "/open-source-secure-element/project/problems.html#absence-of-insurable-non-custodial-wallets",
+    
+    "relUrl": "/project/problems.html#absence-of-insurable-non-custodial-wallets"
+  },"97": {
+    "doc": "Problems Addressed",
+    "title": "Security and Usability Gaps",
+    "content": "Existing solutions often involve blind signing of transactions, which exposes users to phishing and fraud. Additionally, they fail to provide the secure and user-friendly experience needed to meet the expectations of mainstream crypto adopters. ",
+    "url": "/open-source-secure-element/project/problems.html#security-and-usability-gaps",
+    
+    "relUrl": "/project/problems.html#security-and-usability-gaps"
+  },"98": {
+    "doc": "Problems Addressed",
+    "title": "Research Questions and Needs",
+    "content": "Problem: Lack of Open and Transparent Hardware Wallets . Research Question: How can we design a secure, open-source hardware wallet that adheres to the highest security standards while remaining fully transparent and verifiable? . Need: A hardware wallet with a secure element based on an open framework, like OpenTitan, with fully documented and inspectable components to ensure trust and transparency. Problem: Unverifiable Supply Chains in Hardware Production . Research Question: How can blockchain technology be used to document the hardware supply chain and ensure its security and transparency? . Need: A blockchain-based system to track the origin and manufacturing processes of hardware components, preventing tampering and ensuring provenance. Problem: Limited Insurance Options for Non-Custodial Wallets . Research Question: What design and compliance mechanisms are required to enable insurance for non-custodial wallets without compromising user autonomy? . Need: Integration of features like address whitelisting, social recovery, and transaction monitoring to ensure insurability while retaining the decentralized nature of the wallet. Problem: Security Vulnerabilities and Usability Issues in Existing Wallets . Research Question: How can the wallet incorporate advanced security features, such as EIP-712-compliant transaction signing, to mitigate risks while enhancing usability? . Need: Secure and user-friendly features, such as displaying transaction details on-device, to eliminate blind signing and reduce phishing risks. Problem: Lack of Affordable and Accessible Non-Custodial Solutions . Research Question: Can an affordable hardware wallet be developed using open-source technology without sacrificing security or functionality? . Need: A cost-effective design using off-the-shelf components, making secure hardware wallets accessible to a broader audience. These research questions and needs aim to address critical gaps in transparency, security, insurability, and usability, fostering broader adoption of decentralized finance tools. ",
+    "url": "/open-source-secure-element/project/problems.html#research-questions-and-needs",
+    
+    "relUrl": "/project/problems.html#research-questions-and-needs"
+  },"99": {
+    "doc": "Problems Addressed",
+    "title": "Problems Addressed",
+    "content": " ",
+    "url": "/open-source-secure-element/project/problems.html",
+    
+    "relUrl": "/project/problems.html"
+  },"100": {
+    "doc": "Public Good Contributions",
+    "title": "Public Good Contributions",
+    "content": "The Open Source Secure Element (OSSE) project embodies the ethos of public goods by contributing valuable open-source resources, fostering community engagement, and addressing critical gaps in the blockchain ecosystem that are often overlooked by market-driven initiatives. Below are the key ways this project will result in a public good: . ",
+    "url": "/open-source-secure-element/impact/public-good.html",
+    
+    "relUrl": "/impact/public-good.html"
+  },"101": {
+    "doc": "Public Good Contributions",
+    "title": "1. Open-Source Code and Hardware Design",
+    "content": "The project will release all hardware and software components as open source, including: . | Wallet firmware | Secure element design | Blockchain-based supply chain documentation tools | . This transparency ensures that anyone can inspect, audit, or improve the wallet’s functionality, reducing reliance on proprietary solutions and enhancing trust within the ecosystem. Developers can reuse or adapt the project’s code and designs for other applications, fostering innovation across the blockchain space. ",
+    "url": "/open-source-secure-element/impact/public-good.html#1-open-source-code-and-hardware-design",
+    
+    "relUrl": "/impact/public-good.html#1-open-source-code-and-hardware-design"
+  },"102": {
+    "doc": "Public Good Contributions",
+    "title": "2. Shared Infrastructure",
+    "content": "By leveraging and extending the OpenTitan framework, the project will contribute to the development of secure, open-source microcontroller designs. These improvements can be used in other security-critical applications, such as: . | Validators | IoT devices | Zero-knowledge proof systems | . The blockchain-based supply chain documentation system can serve as a reusable infrastructure for ensuring transparency and trust in other hardware or production processes. ",
+    "url": "/open-source-secure-element/impact/public-good.html#2-shared-infrastructure",
+    
+    "relUrl": "/impact/public-good.html#2-shared-infrastructure"
+  },"103": {
+    "doc": "Public Good Contributions",
+    "title": "3. Openly Shared Research and Documentation",
+    "content": "The project will publish and freely share: . | Feasibility studies | Hardware design specifications | Development processes | Comprehensive documentation | . These resources will empower developers, researchers, and educators to learn from and build upon the project. The project’s findings on integrating insurability mechanisms for non-custodial wallets will contribute to broader discussions on security and insurance in the crypto space. ",
+    "url": "/open-source-secure-element/impact/public-good.html#3-openly-shared-research-and-documentation",
+    
+    "relUrl": "/impact/public-good.html#3-openly-shared-research-and-documentation"
+  },"104": {
+    "doc": "Public Good Contributions",
+    "title": "4. Community Building and Collaboration",
+    "content": "The project will actively engage with: . | The Ethereum developer community | Related open-source initiatives (such as the Firefly wallet) | Educational institutions and research organizations | . By fostering collaboration and shared learning, the project will strengthen the open-source ecosystem and encourage the adoption of best practices for wallet security and usability. Educational resources, such as tutorials and workshops, will help onboard developers and users, promoting greater adoption of secure non-custodial wallet solutions. ",
+    "url": "/open-source-secure-element/impact/public-good.html#4-community-building-and-collaboration",
+    
+    "relUrl": "/impact/public-good.html#4-community-building-and-collaboration"
+  },"105": {
+    "doc": "Public Good Contributions",
+    "title": "5. Addressing Market Gaps",
+    "content": "The project addresses critical issues that are under-provided by market-driven solutions, which often prioritize profit over user empowerment: . | Transparency: Open-source design versus proprietary black boxes | Insurability: Enabling insurance for non-custodial wallets | Accessibility: Creating affordable hardware security solutions | User Autonomy: Providing security without sacrificing control | . By providing a secure, affordable, and transparent hardware wallet, the project empowers individuals to manage their crypto assets confidently without relying on centralized custodians or opaque technologies. ",
+    "url": "/open-source-secure-element/impact/public-good.html#5-addressing-market-gaps",
+    
+    "relUrl": "/impact/public-good.html#5-addressing-market-gaps"
+  },"106": {
+    "doc": "Public Good Contributions",
+    "title": "Long-Term Impact",
+    "content": "The open-source nature of this project ensures that its benefits extend beyond its immediate goals. By contributing to the collective knowledge and tools of the Ethereum ecosystem and the broader blockchain community, the project lays the foundation for a more secure, transparent, and inclusive future for decentralized finance. All deliverables will be published under a permissive open source license, ensuring maximum accessibility and reusability for the community. ",
+    "url": "/open-source-secure-element/impact/public-good.html#long-term-impact",
+    
+    "relUrl": "/impact/public-good.html#long-term-impact"
+  },"107": {
+    "doc": "Risks & Challenges",
+    "title": "Risks &amp; Challenges",
+    "content": "While the Open Source Secure Element (OSSE) project has a well-defined roadmap and leverages proven technologies like the OpenTitan framework, several risks and challenges could arise during implementation and in achieving the desired impacts. Below are the critical risks and mitigation strategies: . ",
+    "url": "/open-source-secure-element/future/risks.html#risks--challenges",
+    
+    "relUrl": "/future/risks.html#risks--challenges"
+  },"108": {
+    "doc": "Risks & Challenges",
+    "title": "1. Technical Challenges",
+    "content": "Risk: The OpenTitan framework, while robust, may present unforeseen technical difficulties in adapting its silicon root of trust (RoT) features to the unique requirements of a hardware wallet. Porting wallet firmware to the RISC-V architecture and integrating advanced features like EIP-712 may require additional time and resources. Mitigation: . | Collaborate closely with (Redacted*), leveraging their expertise in cryptographic hardware design to address technical challenges. | Adopt an iterative development approach to identify and resolve issues early in the development cycle. | . ",
+    "url": "/open-source-secure-element/future/risks.html#1-technical-challenges",
+    
+    "relUrl": "/future/risks.html#1-technical-challenges"
+  },"109": {
+    "doc": "Risks & Challenges",
+    "title": "2. Hardware Component Availability",
+    "content": "Risk: Delays in the availability of OpenTitan-based chipsets or other critical hardware components could impact project timelines. Mitigation: . | Use the CW340 Luna FPGA board as an interim platform to prototype key functionalities while waiting for production-grade chipsets. | Explore alternative components to maintain progress if significant delays occur. | . ",
+    "url": "/open-source-secure-element/future/risks.html#2-hardware-component-availability",
+    
+    "relUrl": "/future/risks.html#2-hardware-component-availability"
+  },"110": {
+    "doc": "Risks & Challenges",
+    "title": "3. Supply Chain Documentation Complexity",
+    "content": "Risk: Implementing a blockchain-based system for supply chain transparency could prove challenging, particularly in integrating data from multiple manufacturers and verifying its accuracy. Mitigation: . | Partner with experienced supply chain and blockchain professionals to design a scalable and reliable system. | Conduct pilot tests with selected components to refine the process before full-scale implementation. | . ",
+    "url": "/open-source-secure-element/future/risks.html#3-supply-chain-documentation-complexity",
+    
+    "relUrl": "/future/risks.html#3-supply-chain-documentation-complexity"
+  },"111": {
+    "doc": "Risks & Challenges",
+    "title": "4. Security Risks",
+    "content": "Risk: Hardware and firmware may be exposed to novel attack vectors during or after development, compromising the wallet’s security. Mitigation: . | Conduct thorough security testing and independent audits of both hardware and software. | Build defenses against known attack vectors, such as side-channel attacks, and continuously monitor for emerging threats. | . ",
+    "url": "/open-source-secure-element/future/risks.html#4-security-risks",
+    
+    "relUrl": "/future/risks.html#4-security-risks"
+  },"112": {
+    "doc": "Risks & Challenges",
+    "title": "5. Community Adoption and Collaboration",
+    "content": "Risk: Limited community engagement or reluctance from related projects (e.g., Firefly wallet) to collaborate could hinder ecosystem integration and reduce impact. Mitigation: . | Actively engage with the Ethereum developer community and other open-source projects, sharing progress and soliciting feedback throughout development. | Offer incentives, such as early access to tools and documentation, to encourage collaboration. | . ",
+    "url": "/open-source-secure-element/future/risks.html#5-community-adoption-and-collaboration",
+    
+    "relUrl": "/future/risks.html#5-community-adoption-and-collaboration"
+  },"113": {
+    "doc": "Risks & Challenges",
+    "title": "6. Market and Insurance Challenges",
+    "content": "Risk: Insuring non-custodial wallets is a relatively new concept, and unexpected regulatory or operational hurdles could arise. The market demand for the wallet may not materialize as anticipated, affecting adoption rates. Mitigation: . | Work closely with ver.de AG to design an insurance model that complies with regulations and meets user needs. | Conduct user research to ensure the wallet’s design and features align with market demand, adjusting the project scope if necessary. | . ",
+    "url": "/open-source-secure-element/future/risks.html#6-market-and-insurance-challenges",
+    
+    "relUrl": "/future/risks.html#6-market-and-insurance-challenges"
+  },"114": {
+    "doc": "Risks & Challenges",
+    "title": "7. Financial and Resource Constraints",
+    "content": "Risk: Unforeseen expenses or delays could exceed the allocated budget or strain available resources. Mitigation: . | Implement rigorous project management and cost control measures. | Explore additional funding sources or partnerships if needed to maintain momentum. | . ",
+    "url": "/open-source-secure-element/future/risks.html#7-financial-and-resource-constraints",
+    
+    "relUrl": "/future/risks.html#7-financial-and-resource-constraints"
+  },"115": {
+    "doc": "Risks & Challenges",
+    "title": "Conclusion",
+    "content": "While these risks are significant, they are manageable through proactive planning, strong partnerships, and iterative development. By addressing these challenges effectively, the project will achieve its goal of delivering a secure, insurable, and transparent hardware wallet to the Ethereum ecosystem. *) The name of the leading german security research facility will be revealed when the project is funded. ",
+    "url": "/open-source-secure-element/future/risks.html#conclusion",
+    
+    "relUrl": "/future/risks.html#conclusion"
+  },"116": {
+    "doc": "Risks & Challenges",
+    "title": "Risks & Challenges",
+    "content": " ",
+    "url": "/open-source-secure-element/future/risks.html",
+    
+    "relUrl": "/future/risks.html"
+  },"117": {
+    "doc": "Search",
+    "title": "Search",
+    "content": "Search . ",
+    "url": "/open-source-secure-element/search/",
+    
+    "relUrl": "/search/"
+  },"118": {
+    "doc": "Security Model",
+    "title": "Security Model",
+    "content": "The Open Source Secure Element (OSSE) implements a comprehensive security model designed to protect cryptographic keys and sensitive operations against various threats. ",
+    "url": "/open-source-secure-element/security-model/",
+    
+    "relUrl": "/security-model/"
+  },"119": {
+    "doc": "Security Model",
+    "title": "Threat Model",
+    "content": "The OSSE is designed to protect against the following threats: . Physical Attacks . | Invasive attacks: Microprobing, circuit modification | Semi-invasive attacks: Fault injection, side-channel analysis | Non-invasive attacks: Power analysis, electromagnetic analysis, timing attacks | . Software Attacks . | Malicious host software: Attempts to extract keys or manipulate operations | Firmware attacks: Attempts to exploit vulnerabilities in the secure element firmware | Supply chain attacks: Compromised components or manufacturing processes | . ",
+    "url": "/open-source-secure-element/security-model/#threat-model",
+    
+    "relUrl": "/security-model/#threat-model"
+  },"120": {
+    "doc": "Security Model",
+    "title": "Defense Mechanisms",
+    "content": "Note: The security mechanisms described here are implemented in both hardware and firmware. Physical Security . The OSSE implements multiple layers of physical security: . | Active Shield: Mesh of conductive traces that detect physical tampering | Environmental Sensors: Detect abnormal operating conditions (temperature, voltage, clock) | Memory Encryption: All sensitive data in memory is encrypted | Secure Storage: Keys are stored in tamper-resistant memory | . Cryptographic Security . The cryptographic architecture includes: . | Key Hierarchy: . | Root keys stored in hardware-protected memory | Derived keys for specific operations | Session keys for temporary operations | . | Secure Key Generation: . | True random number generator (TRNG) | Post-processing to ensure entropy quality | Key generation entirely within the secure boundary | . | Secure Operations: . | All cryptographic operations performed within secure boundary | Side-channel resistant implementations of algorithms | Constant-time operations to prevent timing attacks | . | . ",
+    "url": "/open-source-secure-element/security-model/#defense-mechanisms",
+    
+    "relUrl": "/security-model/#defense-mechanisms"
+  },"121": {
+    "doc": "Security Model",
+    "title": "Security Boundaries",
+    "content": "The OSSE establishes clear security boundaries: . +--------------------------------------------------+ | Host System | | +------------------------------------------+ | | OSSE Device | | | | +----------------------------------+ | | | Secure Boundary | | | | | | +-------------+ +-----------+ | | | | Secure Core | Secure | | | | | Memory | | | | +-------------+ +-----------+ | | | | | | +----------------------------------+ | | | | +------------------------------------------+ | | +--------------------------------------------------+ . ",
+    "url": "/open-source-secure-element/security-model/#security-boundaries",
+    
+    "relUrl": "/security-model/#security-boundaries"
+  },"122": {
+    "doc": "Security Model",
+    "title": "Security Certification",
+    "content": "The OSSE is designed to meet the following security certifications: . | Standard | Target Level | Status | . | FIPS 140-3 | Level 3 | In progress | . | Common Criteria | EAL 5+ | Planned | . | EMVCo Security Evaluation | Level 1 | Planned | . ",
+    "url": "/open-source-secure-element/security-model/#security-certification",
+    
+    "relUrl": "/security-model/#security-certification"
+  },"123": {
+    "doc": "Security Model",
+    "title": "Security Verification",
+    "content": "The OSSE security is verified through multiple approaches: . Formal Verification . Critical components of the OSSE are formally verified: . | Secure boot sequence | Memory protection mechanisms | Cryptographic algorithm implementations | . Independent Security Audits . The OSSE undergoes regular security audits: . | Hardware design review | Firmware code review | Penetration testing | . Open Source Advantage . As an open-source project, the OSSE benefits from: . | Community review of all code and designs | Transparent security processes | No security through obscurity | . ",
+    "url": "/open-source-secure-element/security-model/#security-verification",
+    
+    "relUrl": "/security-model/#security-verification"
+  },"124": {
+    "doc": "Security Model",
+    "title": "Reporting Security Issues",
+    "content": "If you discover a security vulnerability in the OSSE: . | Do not disclose it publicly on forums or social media | Send details to contact@etherisc.com | . Our security team will acknowledge your report within 48 hours and work with you on addressing the issue. ",
+    "url": "/open-source-secure-element/security-model/#reporting-security-issues",
+    
+    "relUrl": "/security-model/#reporting-security-issues"
+  },"125": {
+    "doc": "Technical Documentation",
+    "title": "Technical Documentation",
+    "content": "This section provides detailed technical information about the Open Source Secure Element (OSSE) project. ",
+    "url": "/open-source-secure-element/technical-documentation/",
+    
+    "relUrl": "/technical-documentation/"
+  },"126": {
+    "doc": "Technical Documentation",
+    "title": "Architecture Overview",
+    "content": "The OSSE is built on the OpenTitan framework, which provides a transparent, high-quality reference design for silicon root of trust chips. The architecture consists of: . +----------------------------------+ | OSSE | +----------------------------------+ | | +-------------+ +------------+ | | Secure Core | Crypto | | (RISC-V) | Accelerator| | +-------------+ +------------+ | | +-------------+ +------------+ | | Secure | I/O | | Storage | Interfaces | | +-------------+ +------------+ | | +----------------------------------+ . Secure Core . The secure core is based on the RISC-V architecture, specifically the Ibex core from lowRISC. Key features include: . | 32-bit RISC-V processor (RV32IMC) | Secure boot process | Memory protection unit | Privilege separation | . Cryptographic Accelerator . The cryptographic accelerator provides hardware acceleration for: . | AES (128/256-bit) | SHA-256/384/512 | HMAC | RSA | ECC (secp256k1, ed25519) | . Secure Storage . The secure storage subsystem provides: . | Tamper-resistant storage for cryptographic keys | Secure non-volatile memory | Anti-rollback protection | Physical attack countermeasures | . I/O Interfaces . The OSSE supports multiple I/O interfaces: . | USB | I2C | SPI | UART (for debugging) | . ",
+    "url": "/open-source-secure-element/technical-documentation/#architecture-overview",
+    
+    "relUrl": "/technical-documentation/#architecture-overview"
+  },"127": {
+    "doc": "Technical Documentation",
+    "title": "Hardware Implementation",
+    "content": "The OSSE hardware implementation is designed to be: . | Manufacturable using standard processes | Resistant to side-channel attacks | Physically secure against tampering | Power-efficient for mobile and embedded applications | . ",
+    "url": "/open-source-secure-element/technical-documentation/#hardware-implementation",
+    
+    "relUrl": "/technical-documentation/#hardware-implementation"
+  },"128": {
+    "doc": "Technical Documentation",
+    "title": "Firmware Architecture",
+    "content": "The firmware architecture follows a layered approach: . | Hardware Abstraction Layer (HAL) - Provides low-level access to hardware | Core Services - Implements cryptographic operations and secure storage | Application Layer - Implements specific use cases (e.g., wallet functionality) | Communication Layer - Handles external communication protocols | . ",
+    "url": "/open-source-secure-element/technical-documentation/#firmware-architecture",
+    
+    "relUrl": "/technical-documentation/#firmware-architecture"
+  },"129": {
+    "doc": "Technical Documentation",
+    "title": "Security Features",
+    "content": "Warning: Security features are still under development and subject to change. The OSSE implements several security features: . | Secure boot with hardware root of trust | Runtime integrity verification | Side-channel attack countermeasures | Physical tamper detection | Secure firmware update mechanism | True random number generator (TRNG) | . ",
+    "url": "/open-source-secure-element/technical-documentation/#security-features",
+    
+    "relUrl": "/technical-documentation/#security-features"
+  },"130": {
+    "doc": "Technical Documentation",
+    "title": "Standards Compliance",
+    "content": "The OSSE is designed to comply with: . | FIPS 140-3 (target: Level 3) | Common Criteria (target: EAL 5+) | EMVCo Security Guidelines | Ethereum EIP-712 and related standards | . ",
+    "url": "/open-source-secure-element/technical-documentation/#standards-compliance",
+    
+    "relUrl": "/technical-documentation/#standards-compliance"
+  },"131": {
+    "doc": "Advanced Use Cases",
+    "title": "Advanced Use Cases for OSSE",
+    "content": "IMPORTANT DISCLAIMER: The Open Source Secure Element (OSSE) project is currently in the planning phase. No working software or hardware is available at this time. The information provided in this documentation is preliminary and subject to significant changes as the project develops. While the Open Source Secure Element (OSSE) is primarily designed as a foundation for hardware wallets, its open architecture and security features enable a wide range of applications beyond cryptocurrency storage. This page explores some of these potential use cases. ",
+    "url": "/open-source-secure-element/use-cases/#advanced-use-cases-for-osse",
+    
+    "relUrl": "/use-cases/#advanced-use-cases-for-osse"
+  },"132": {
+    "doc": "Advanced Use Cases",
+    "title": "Complete Knowledge Proofs",
+    "content": "The OSSE can serve as a secure platform for implementing “complete knowledge proofs” as described in the research paper by V. Buterin, K. Babel et al.. What are Complete Knowledge Proofs? . The paper cited above introduces the concept of Complete Knowledge (CK), addressing scenarios where a prover must demonstrate unencumbered access to a secret, such as a private key. Traditional proofs of knowledge confirm that a prover possesses a secret but don’t guarantee the prover’s unrestricted ability to use it. This distinction is crucial because mechanisms like Trusted Execution Environments (TEEs) or Secure Multi-Party Computation (MPC) can encumber a secret, allowing its use only under certain conditions or approvals.​ . Why is this important in many blockchain applications? . Proving Complete Knowledge of a Private Key: . In blockchain systems, ownership and control over assets are authenticated through private keys. To prove complete knowledge of a private key, a prover must demonstrate not only possession but also the capability to use the key without restrictions. Kelkar et al. propose practical schemes utilizing special-purpose hardware, such as TEEs and off-the-shelf mining ASICs, to achieve this. These schemes ensure that the prover can perform any cryptographic operation with the private key, thereby proving unencumbered access.​ . Importance in Blockchain Security: . In blockchain ecosystems, the security model hinges on the assumption that only the legitimate owner has access to their private key, ensuring sole control over the associated assets. If a private key is encumbered—meaning its use is restricted or conditional—this foundational security assumption is undermined. For instance, an encumbered key could be misused to enforce unwanted transactions or could be sold, leading to unauthorized control over assets. Therefore, proving complete knowledge of a private key is essential to maintain the integrity and trustworthiness of blockchain transactions.​ . Mitigating Risks with Secure Elements: . | Secure elements are tamper-resistant hardware components designed to securely store cryptographic keys and execute sensitive operations. By storing private keys within a secure element, the risk of encumbrance is mitigated. | Physical Security: Secure elements are resistant to physical tampering and side-channel attacks, ensuring that private keys cannot be extracted or misused by unauthorized entities. ​ . | Controlled Execution Environment: They provide a controlled environment where cryptographic operations can be executed securely, preventing unauthorized applications or users from imposing restrictions on key usage.​ . | By integrating secure elements, blockchain systems can ensure that private keys remain unencumbered, preserving the core security assumptions and preventing potential vulnerabilities associated with key encumbrance.​ . | . Implementation with OSSE . The OSSE provides several features that make it ideal for implementing CKPs: . | Secure Execution Environment: The isolated secure element ensures that sensitive computations remain protected from external observation. | Hardware-backed Cryptography: The cryptographic accelerators enable efficient implementation of the complex operations required for CKPs. | Attestation Capabilities: The OSSE can provide hardware attestation to verify the integrity of the execution environment. | Tamper Resistance: Physical security features protect against side-channel attacks that could compromise the proof system. | . Potential Applications . | Secure Auditing: Proving complete knowledge of a dataset without revealing sensitive details. | Regulatory Compliance: Demonstrating compliance with regulations without exposing private information. | Secure Multi-party Computation: Ensuring all parties have complete knowledge of required inputs. | . ",
+    "url": "/open-source-secure-element/use-cases/#complete-knowledge-proofs",
+    
+    "relUrl": "/use-cases/#complete-knowledge-proofs"
+  },"133": {
+    "doc": "Advanced Use Cases",
+    "title": "Secure Authentication Systems",
+    "content": "The OSSE can serve as a foundation for advanced authentication systems: . | FIDO2/WebAuthn: Implementation of passwordless authentication standards. | Multi-factor Authentication: Hardware-backed security tokens. | Biometric Template Protection: Secure storage and processing of biometric templates. | . ",
+    "url": "/open-source-secure-element/use-cases/#secure-authentication-systems",
+    
+    "relUrl": "/use-cases/#secure-authentication-systems"
+  },"134": {
+    "doc": "Advanced Use Cases",
+    "title": "Secure IoT Applications",
+    "content": "The OSSE’s small form factor and security features make it suitable for IoT security: . | Device Identity: Providing strong device identity and authentication. | Secure Firmware Updates: Verifying and securely applying firmware updates. | Secure Telemetry: Ensuring data integrity and confidentiality for IoT sensors. | . ",
+    "url": "/open-source-secure-element/use-cases/#secure-iot-applications",
+    
+    "relUrl": "/use-cases/#secure-iot-applications"
+  },"135": {
+    "doc": "Advanced Use Cases",
+    "title": "Secure Enclaves for AI/ML",
+    "content": "The OSSE can provide secure execution environments for sensitive AI/ML operations: . | Model Protection: Securing proprietary machine learning models. | Private Inference: Performing inference on sensitive data without exposing the data. | Federated Learning: Secure aggregation of model updates. | . ",
+    "url": "/open-source-secure-element/use-cases/#secure-enclaves-for-aiml",
+    
+    "relUrl": "/use-cases/#secure-enclaves-for-aiml"
+  },"136": {
+    "doc": "Advanced Use Cases",
+    "title": "Decentralized Identity Solutions",
+    "content": "Beyond cryptocurrency wallets, the OSSE can support broader decentralized identity applications: . | Self-sovereign Identity: Secure storage and management of decentralized identifiers (DIDs). | Verifiable Credentials: Secure issuance and presentation of verifiable credentials. | Selective Disclosure: Privacy-preserving disclosure of identity attributes. | . ",
+    "url": "/open-source-secure-element/use-cases/#decentralized-identity-solutions",
+    
+    "relUrl": "/use-cases/#decentralized-identity-solutions"
+  },"137": {
+    "doc": "Advanced Use Cases",
+    "title": "Secure Supply Chain Tracking",
+    "content": "The OSSE can enhance supply chain security: . | Product Authentication: Verifying the authenticity of products. | Secure Tracking: Tamper-evident logging of supply chain events. | Counterfeit Prevention: Cryptographic proof of product origin. | . ",
+    "url": "/open-source-secure-element/use-cases/#secure-supply-chain-tracking",
+    
+    "relUrl": "/use-cases/#secure-supply-chain-tracking"
+  },"138": {
+    "doc": "Advanced Use Cases",
+    "title": "Future Research Directions",
+    "content": "The open nature of the OSSE platform encourages exploration of novel security applications: . | Post-quantum Cryptography: Implementing and testing post-quantum algorithms. | Threshold Cryptography: Distributing trust across multiple secure elements. | Formal Verification: Developing formally verified security protocols. | . We welcome contributions and ideas for additional use cases that leverage the OSSE’s capabilities. Please refer to our contribution guidelines if you’re interested in collaborating on these or other applications. ",
+    "url": "/open-source-secure-element/use-cases/#future-research-directions",
+    
+    "relUrl": "/use-cases/#future-research-directions"
+  },"139": {
+    "doc": "Advanced Use Cases",
+    "title": "Advanced Use Cases",
+    "content": " ",
+    "url": "/open-source-secure-element/use-cases/",
+    
+    "relUrl": "/use-cases/"
+  }
+}
