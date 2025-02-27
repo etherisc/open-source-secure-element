@@ -13,7 +13,7 @@ The Open Source Secure Element project addresses several critical challenges in 
 
 **Problem**: Most hardware wallets use proprietary secure elements with closed-source designs, making it impossible to fully audit their security.
 
-**Need**: A hardware wallet with a secure element based on an open framework, like [OpenTitan](https://opentitan.org/), with fully documented and inspectable components to ensure trust and transparency.
+**Need**: A hardware wallet with a secure element based on an open framework, like [OpenTitan](https://opentitan.org/), with fully documented and inspectable components to ensure trust and transparency. It is beyond question that this implementation will give full transparency in the signed transactions, avoiding the typical blind signing attack vectors.
 
 ## Inadequate Supply Chain Documentation
 

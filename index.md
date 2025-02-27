@@ -14,6 +14,7 @@ The Open Source Secure Element (OSSE) project aims to develop the first fully op
 This project will deliver an open source secure element and hardware wallet that provides:
 
 - Robust support for Ethereum standards, such as EIP-712 for transaction signing
+- No more blind signing of transactions
 - Blockchain-based supply chain documentation to ensure trust and verifiability
 - Integration with tailored insurance solutions for non-custodial wallets
 - An affordable and transparent alternative to proprietary wallets
