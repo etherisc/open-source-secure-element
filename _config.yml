@@ -7,7 +7,7 @@ url: "https://etherisc.github.io"
 # Just the Docs configuration
 search_enabled: true
 heading_anchors: true
-color_scheme: light
+color_scheme: osse
 aux_links:
   "OSSE on GitHub":
     - "https://github.com/etherisc/open-source-secure-element"
@@ -25,11 +25,6 @@ back_to_top_text: "Back to top"
 
 # Navigation
 nav_sort: case_sensitive
-
-# Custom CSS
-sass:
-  sass_dir: assets/css
-  style: compressed
 
 # Custom JavaScript
 after_footer_scripts:
