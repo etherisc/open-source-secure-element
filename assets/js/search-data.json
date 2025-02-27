@@ -533,7 +533,7 @@
   },"76": {
     "doc": "Home",
     "title": "Project Overview",
-    "content": "This project will deliver an open source secure element and hardware wallet that provides: . | Robust support for Ethereum standards, such as EIP-712 for transaction signing | Blockchain-based supply chain documentation to ensure trust and verifiability | Integration with tailored insurance solutions for non-custodial wallets | An affordable and transparent alternative to proprietary wallets | . The secure element at the core of the project will also provide a key component for numerous cryptographic applications, including Complete Knowledge Proofs and validator hardware. ",
+    "content": "This project will deliver an open source secure element and hardware wallet that provides: . | Robust support for Ethereum standards, such as EIP-712 for transaction signing | No more blind signing of transactions | Blockchain-based supply chain documentation to ensure trust and verifiability | Integration with tailored insurance solutions for non-custodial wallets | An affordable and transparent alternative to proprietary wallets | . The secure element at the core of the project will also provide a key component for numerous cryptographic applications, including Complete Knowledge Proofs and validator hardware. ",
     "url": "/open-source-secure-element/#project-overview",
     
     "relUrl": "/#project-overview"
@@ -659,7 +659,7 @@
   },"94": {
     "doc": "Problems Addressed",
     "title": "Lack of Transparency in Hardware Wallets",
-    "content": "Problem: Most hardware wallets use proprietary secure elements with closed-source designs, making it impossible to fully audit their security. Need: A hardware wallet with a secure element based on an open framework, like OpenTitan, with fully documented and inspectable components to ensure trust and transparency. ",
+    "content": "Problem: Most hardware wallets use proprietary secure elements with closed-source designs, making it impossible to fully audit their security. Need: A hardware wallet with a secure element based on an open framework, like OpenTitan, with fully documented and inspectable components to ensure trust and transparency. It is beyond question that this implementation will give full transparency in the signed transactions, avoiding the typical blind signing attack vectors. ",
     "url": "/open-source-secure-element/project/problems.html#lack-of-transparency-in-hardware-wallets",
     
     "relUrl": "/project/problems.html#lack-of-transparency-in-hardware-wallets"
